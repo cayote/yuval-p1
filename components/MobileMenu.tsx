@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { navigationItems } from "@/lib/navigation-data";
 import type { NavigationItem } from "@/types/navigation";
 
@@ -95,21 +96,35 @@ export default function MobileMenu() {
         {isOpen ? "Close Menu" : "Open Menu"}
       </button>
 
-      {/* Overlay Panel */}
-      <div
-        id="mobile-menu-panel"
-        role="dialog"
-        aria-modal="true"
-        className={`${
-          isOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-4 opacity-0 pointer-events-none"
-        } fixed inset-x-0 top-0 z-50 mt-0 bg-background/95 backdrop-blur-sm border-b border-black/10 dark:border-white/15 transition-all duration-200`}
-      >
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-3">
-          <ul className="flex flex-col divide-y divide-black/10 dark:divide-white/10">
-            {navigationItems.map((item) => renderItem(item))}
-          </ul>
-        </div>
-      </div>
+      {/* Portalized overlay + panel to ensure outside clicks work across browsers */}
+      {typeof window !== "undefined" &&
+        createPortal(
+          <>
+            {isOpen ? (
+              <div
+                className="fixed inset-0 z-50 bg-black/0"
+                role="presentation"
+                onClick={() => setIsOpen(false)}
+              />
+            ) : null}
+
+            <div
+              id="mobile-menu-panel"
+              role="dialog"
+              aria-modal="true"
+              className={`${
+                isOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-4 opacity-0 pointer-events-none"
+              } fixed inset-x-0 top-0 z-[60] mt-0 bg-background/95 backdrop-blur-sm border-b border-black/10 dark:border-white/15 transition-all duration-200`}
+            >
+              <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-3">
+                <ul className="flex flex-col divide-y divide-black/10 dark:divide-white/10">
+                  {navigationItems.map((item) => renderItem(item))}
+                </ul>
+              </div>
+            </div>
+          </>,
+          document.body
+        )}
     </div>
   );
 }

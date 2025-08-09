@@ -3,75 +3,70 @@ import { navigationItems } from "@/lib/navigation-data";
 
 export default function Navigation() {
   return (
-    <header className="w-full">
-      <nav
-        aria-label="Main"
-        className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between"
+    <nav aria-label="Main" className="flex items-center justify-between">
+      {/* Brand / Title */}
+      <Link
+        href="/"
+        className="text-[13px] font-semibold tracking-[0.18em] uppercase hover:opacity-80 transition-opacity"
       >
-        {/* Brand / Title */}
-        <Link
-          href="/"
-          className="text-[13px] font-semibold tracking-[0.18em] uppercase hover:opacity-80 transition-opacity"
-        >
-          Yuval Cohen Portfolio
-        </Link>
+        Yuval Cohen Portfolio
+      </Link>
 
-        {/* Desktop Menu */}
-        <ul role="menubar" className="hidden md:flex items-center gap-8 text-[13px]">
-          {navigationItems.map((item) => {
-            if (item.type === "link") {
-              return (
-                <li role="none" key={item.label}>
-                  <Link
-                    role="menuitem"
-                    href={item.href}
-                    className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            }
-
-            // Projects dropdown menu
+      {/* Desktop Menu */}
+      <ul role="menubar" className="hidden md:flex items-center gap-8 text-[13px]">
+        {navigationItems.map((item) => {
+          if (item.type === "link") {
             return (
-              <li role="none" key={item.label} className="relative group">
-                <button
-                  type="button"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  aria-controls="projects-menu"
-                  className="uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none"
+              <li role="none" key={item.label}>
+                <Link
+                  role="menuitem"
+                  href={item.href}
+                  className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors"
                 >
                   {item.label}
-                </button>
-
-                {/* Dropdown panel */}
-                <div
-                  id="projects-menu"
-                  role="menu"
-                  aria-label="Projects"
-                  className="pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[220px] rounded-md border border-black/10 dark:border-white/15 bg-background shadow-lg ring-1 ring-black/5 dark:ring-white/10 p-2 transition-opacity"
-                >
-                  <ul className="flex flex-col gap-1">
-                    {item.items.map((link) => (
-                      <li role="none" key={link.href}>
-                        <Link
-                          role="menuitem"
-                          href={link.href}
-                          className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </Link>
               </li>
             );
-          })}
-        </ul>
-      </nav>
-    </header>
+          }
+
+          // Projects dropdown menu
+          return (
+            <li role="none" key={item.label} className="relative group">
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="projects-menu"
+                className="uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none"
+              >
+                {item.label}
+              </button>
+
+              {/* Dropdown panel */}
+              <div
+                id="projects-menu"
+                role="menu"
+                aria-label="Projects"
+                className="pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[220px] rounded-md border border-black/10 dark:border-white/15 bg-background shadow-lg ring-1 ring-black/5 dark:ring-white/10 p-2 transition-opacity"
+              >
+                <ul className="flex flex-col gap-1">
+                  {item.items.map((link) => (
+                    <li role="none" key={link.href}>
+                      <Link
+                        role="menuitem"
+                        href={link.href}
+                        className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
