@@ -35,6 +35,12 @@ export interface Project {
   title: string;
   cover: string; // path relative to public, e.g., "/projects/the-cooperative/cover.jpg"
   description: string;
+  subtitle?: string;
+  location?: string;
+  type?: string;
+  studio?: string;
+  collaborators?: string[];
+  lecturer?: string;
   gallery?: ProjectMedia[];
   sections?: ProjectSectionContent[];
   meta?: ProjectMeta;

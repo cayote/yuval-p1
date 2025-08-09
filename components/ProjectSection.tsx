@@ -26,7 +26,28 @@ export default function ProjectSection({ project, className, children }: PropsWi
         </header>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-4">
-            <p className="text-base sm:text-[17px] leading-7 opacity-80">{project.description}</p>
+            {/* Meta block resembling the original site */}
+            <div className="space-y-2">
+              {project.location ? (
+                <p className="text-sm font-semibold italic">{project.location}</p>
+              ) : null}
+              {project.type ? (
+                <p className="font-mono text-sm opacity-70">{project.type}</p>
+              ) : null}
+              {project.studio ? (
+                <p className="font-mono text-sm opacity-70">{project.studio}</p>
+              ) : null}
+              {project.collaborators && project.collaborators.length > 0 ? (
+                <p className="font-mono text-sm opacity-70">In collaboration with: {project.collaborators.join(', ')}</p>
+              ) : null}
+              {project.lecturer ? (
+                <p className="font-mono text-sm opacity-70">Lecturers: {project.lecturer}</p>
+              ) : null}
+            </div>
+
+            {project.description ? (
+              <p className="mt-8 text-base sm:text-[17px] leading-7 opacity-80">{project.description}</p>
+            ) : null}
           </div>
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
