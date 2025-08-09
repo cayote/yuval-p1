@@ -3,7 +3,7 @@ import { navigationItems } from "@/lib/navigation-data";
 
 export default function Navigation() {
   return (
-    <nav aria-label="Main" className="flex items-center justify-between">
+    <nav aria-label="Main" className="flex items-center md:w-full">
       {/* Brand / Title */}
       <Link
         href="/"
@@ -13,7 +13,7 @@ export default function Navigation() {
       </Link>
 
       {/* Desktop Menu */}
-      <ul role="menubar" className="hidden md:flex items-center gap-8 text-[13px]">
+      <ul role="menubar" className="hidden md:flex items-center gap-8 text-[13px] ml-auto">
         {navigationItems.map((item) => {
           if (item.type === "link") {
             return (

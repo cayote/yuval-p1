@@ -8,10 +8,12 @@ import type { NavigationItem } from "@/types/navigation";
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
 
   // Close on Escape
   useEffect(() => {
+    setMounted(true);
     if (!isOpen) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -97,7 +99,7 @@ export default function MobileMenu() {
       </button>
 
       {/* Portalized overlay + panel to ensure outside clicks work across browsers */}
-      {typeof window !== "undefined" &&
+      {mounted &&
         createPortal(
           <>
             {isOpen ? (
