@@ -1,29 +1,115 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { navigationItems } from "@/lib/navigation-data";
+import type { NavigationItem } from "@/types/navigation";
 
 export default function MobileMenu() {
-  return (
-    <div className="md:hidden py-2">
-      <ul className="flex flex-col gap-3 text-sm">
-        {navigationItems.map((item) => {
-          if (item.type === "link") {
-            return (
-              <li key={item.label}>
-                <Link href={item.href} className="block py-1">
-                  {item.label}
-                </Link>
-              </li>
-            );
-          }
-          return (
-            <li key={item.label}>
-              <span className="block py-1">{item.label}</span>
+  const [isOpen, setIsOpen] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
+
+  // Close on Escape
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isOpen]);
+
+  function toggleMenu() {
+    setIsOpen((v) => !v);
+  }
+
+  function handleItemClick() {
+    setIsOpen(false);
+  }
+
+  function toggleSubmenu(label: string) {
+    setExpandedMenus((prev) => ({ ...prev, [label]: !prev[label] }));
+  }
+
+  function renderItem(item: NavigationItem) {
+    if (item.type === "link") {
+      const className = "block w-full text-left px-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors";
+      return (
+        <li key={item.label}>
+          <Link href={item.href} className={className} onClick={handleItemClick}>
+            {item.label}
+          </Link>
+        </li>
+      );
+    }
+
+    const isExpanded = !!expandedMenus[item.label];
+    const buttonClass = "w-full flex items-center justify-between px-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors";
+    return (
+      <li key={item.label}>
+        <button
+          type="button"
+          aria-haspopup="true"
+          aria-expanded={isExpanded}
+          aria-controls={`submenu-${item.label}`}
+          className={buttonClass}
+          onClick={() => toggleSubmenu(item.label)}
+        >
+          <span>{item.label}</span>
+          <span aria-hidden className="ml-3 select-none">{isExpanded ? "−" : "+"}</span>
+        </button>
+        <ul
+          id={`submenu-${item.label}`}
+          role="menu"
+          className={`${isExpanded ? "max-h-96" : "max-h-0"} overflow-hidden transition-[max-height] duration-300`}
+        >
+          {item.items.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="block w-full pl-8 pr-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                onClick={handleItemClick}
+              >
+                {link.label}
+              </Link>
             </li>
-          );
-        })}
-      </ul>
+          ))}
+        </ul>
+      </li>
+    );
+  }
+
+  return (
+    <div className="md:hidden">
+      {/* Toggle Button */}
+      <button
+        type="button"
+        aria-label={isOpen ? "Close Menu" : "Open Menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu-panel"
+        className="inline-flex items-center justify-center rounded border border-black/10 dark:border-white/15 px-3 py-2 text-[13px] font-medium tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+        onClick={toggleMenu}
+      >
+        {isOpen ? "Close Menu" : "Open Menu"}
+      </button>
+
+      {/* Overlay Panel */}
+      <div
+        id="mobile-menu-panel"
+        role="dialog"
+        aria-modal="true"
+        className={`${
+          isOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-4 opacity-0 pointer-events-none"
+        } fixed inset-x-0 top-0 z-50 mt-0 bg-background/95 backdrop-blur-sm border-b border-black/10 dark:border-white/15 transition-all duration-200`}
+      >
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-3">
+          <ul className="flex flex-col divide-y divide-black/10 dark:divide-white/10">
+            {navigationItems.map((item) => renderItem(item))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
