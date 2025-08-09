@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import ScrollLink from "./ScrollLink";
 import { createPortal } from "react-dom";
 import { navigationItems } from "@/lib/navigation-data";
 import type { NavigationItem } from "@/types/navigation";
@@ -39,11 +40,18 @@ export default function MobileMenu() {
   function renderItem(item: NavigationItem) {
     if (item.type === "link") {
       const className = "block w-full text-left px-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors";
+      const isInPage = item.href.startsWith('/#') || item.href.startsWith('#');
       return (
         <li key={item.label}>
-          <Link href={item.href} className={className} onClick={handleItemClick}>
-            {item.label}
-          </Link>
+          {isInPage ? (
+            <ScrollLink href={item.href} className={className} onClick={handleItemClick}>
+              {item.label}
+            </ScrollLink>
+          ) : (
+            <Link href={item.href} className={className} onClick={handleItemClick}>
+              {item.label}
+            </Link>
+          )}
         </li>
       );
     }
@@ -68,17 +76,30 @@ export default function MobileMenu() {
           role="menu"
           className={`${isExpanded ? "max-h-96" : "max-h-0"} overflow-hidden transition-[max-height] duration-300`}
         >
-          {item.items.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="block w-full pl-8 pr-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-                onClick={handleItemClick}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {item.items.map((link) => {
+            const isInPage = link.href.startsWith('/#') || link.href.startsWith('#');
+            return (
+              <li key={link.href}>
+                {isInPage ? (
+                  <ScrollLink
+                    href={link.href}
+                    className="block w-full pl-8 pr-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                    onClick={handleItemClick}
+                  >
+                    {link.label}
+                  </ScrollLink>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className="block w-full pl-8 pr-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                    onClick={handleItemClick}
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </li>
     );

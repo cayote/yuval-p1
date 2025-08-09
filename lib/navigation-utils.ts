@@ -6,7 +6,9 @@ export type ActiveOptions = {
 
 export function normalizePath(path: string): string {
   if (!path) return "/";
-  const withSlash = path.startsWith("/") ? path : `/${path}`;
+  // Strip hash for path comparison
+  const [pathname] = path.split('#');
+  const withSlash = pathname.startsWith("/") ? pathname : `/${pathname}`;
   if (withSlash === "/") return "/";
   return withSlash.replace(/\/+$/, "");
 }
@@ -19,6 +21,11 @@ export function isLinkActive(
   const { exact = false } = options;
   const current = normalizePath(currentPath);
   const target = normalizePath(href);
+
+  // If both have hashes and hashes match, treat as active
+  const currentHash = currentPath.split('#')[1] ?? null;
+  const targetHash = href.split('#')[1] ?? null;
+  if (currentHash && targetHash && currentHash === targetHash) return true;
 
   if (exact) return current === target;
   if (target === "/") return current === "/";

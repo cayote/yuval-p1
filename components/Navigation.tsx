@@ -1,7 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import ScrollLink from "./ScrollLink";
+import useScrollSpy from "@/hooks/useScrollSpy";
 import { navigationItems } from "@/lib/navigation-data";
 
 export default function Navigation() {
+  const activeId = useScrollSpy([
+    'projects',
+    'the-cooperative',
+    'land-of-lords',
+    'the-boidem',
+    'inside-out',
+    'arava-center',
+  ]);
   return (
     <nav aria-label="Main" className="flex items-center md:w-full">
       {/* Brand / Title */}
@@ -16,15 +28,27 @@ export default function Navigation() {
       <ul role="menubar" className="hidden md:flex items-center gap-8 text-[13px] ml-auto">
         {navigationItems.map((item) => {
           if (item.type === "link") {
+            const isInPage = item.href.startsWith('/#') || item.href.startsWith('#');
             return (
               <li role="none" key={item.label}>
-                <Link
-                  role="menuitem"
-                  href={item.href}
-                  className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors"
-                >
-                  {item.label}
-                </Link>
+                {isInPage ? (
+                  <ScrollLink
+                    role="menuitem"
+                    href={item.href}
+                    aria-current={activeId && item.href.endsWith(`#${activeId}`) ? 'true' : undefined}
+                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors ${activeId && item.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
+                  >
+                    {item.label}
+                  </ScrollLink>
+                ) : (
+                  <Link
+                    role="menuitem"
+                    href={item.href}
+                    className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                )}
               </li>
             );
           }
@@ -50,17 +74,31 @@ export default function Navigation() {
                 className="pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[220px] rounded-md border border-black/10 dark:border-white/15 bg-background shadow-lg ring-1 ring-black/5 dark:ring-white/10 p-2 transition-opacity"
               >
                 <ul className="flex flex-col gap-1">
-                  {item.items.map((link) => (
-                    <li role="none" key={link.href}>
-                      <Link
-                        role="menuitem"
-                        href={link.href}
-                        className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
+                  {item.items.map((link) => {
+                    const isInPage = link.href.startsWith('/#') || link.href.startsWith('#');
+                    return (
+                      <li role="none" key={link.href}>
+                        {isInPage ? (
+                          <ScrollLink
+                            role="menuitem"
+                            href={link.href}
+                            aria-current={activeId && link.href.endsWith(`#${activeId}`) ? 'true' : undefined}
+                            className={`block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${activeId && link.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
+                          >
+                            {link.label}
+                          </ScrollLink>
+                        ) : (
+                          <Link
+                            role="menuitem"
+                            href={link.href}
+                            className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                          >
+                            {link.label}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </li>
