@@ -19,7 +19,7 @@ export default function Navigation() {
       {/* Brand / Title */}
       <Link
         href="/"
-        className="text-[13px] font-semibold tracking-[0.18em] uppercase hover:opacity-80 transition-opacity"
+        className="text-[13px] font-semibold tracking-[0.18em] uppercase hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
       >
         Yuval Cohen Portfolio
       </Link>
@@ -36,7 +36,7 @@ export default function Navigation() {
                     role="menuitem"
                     href={item.href}
                     aria-current={activeId && item.href.endsWith(`#${activeId}`) ? 'true' : undefined}
-                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors ${activeId && item.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
+                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId && item.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
                   >
                     {item.label}
                   </ScrollLink>
@@ -44,7 +44,7 @@ export default function Navigation() {
                   <Link
                     role="menuitem"
                     href={item.href}
-                    className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors"
+                    className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
                   >
                     {item.label}
                   </Link>
@@ -61,7 +61,7 @@ export default function Navigation() {
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-controls="projects-menu"
-                className="uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none"
+                className="uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
               >
                 {item.label}
               </button>
@@ -83,7 +83,7 @@ export default function Navigation() {
                             role="menuitem"
                             href={link.href}
                             aria-current={activeId && link.href.endsWith(`#${activeId}`) ? 'true' : undefined}
-                            className={`block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors ${activeId && link.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
+                            className={`block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId && link.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
                           >
                             {link.label}
                           </ScrollLink>
@@ -91,7 +91,7 @@ export default function Navigation() {
                           <Link
                             role="menuitem"
                             href={link.href}
-                            className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                            className="block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
                           >
                             {link.label}
                           </Link>

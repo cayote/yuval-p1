@@ -15,7 +15,7 @@ export default function ProjectsGrid({ projects, className }: ProjectsGridProps)
       ].join(' ')}
       data-testid="projects-grid"
     >
-      {projects.map((project) => (
+      {projects.map((project, index) => (
         <article
           key={project.slug}
           className="break-inside-avoid mb-4"
@@ -24,7 +24,7 @@ export default function ProjectsGrid({ projects, className }: ProjectsGridProps)
           <a
             href={`#${project.slug}`}
             aria-label={`Jump to ${project.title} section`}
-            className="block group rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2"
+            className="block group rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
           >
             <Image
               src={project.cover}
@@ -32,10 +32,11 @@ export default function ProjectsGrid({ projects, className }: ProjectsGridProps)
               width={1600}
               height={1200}
               className="w-full h-auto rounded-md transition-transform duration-200 group-hover:scale-[1.02]"
-              loading="lazy"
+              loading={index < 2 ? undefined : 'lazy'}
+              priority={index < 2}
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
-            <h3 id={`${project.slug}-title`} className="mt-2 text-base font-medium">
+            <h3 id={`${project.slug}-title`} className="mt-2 text-sm sm:text-base font-medium opacity-90">
               {project.title}
             </h3>
           </a>

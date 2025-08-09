@@ -35,7 +35,8 @@ export default function ScrollLink({ href, onClick, children, ...rest }: PropsWi
 
       const target = document.getElementById(slug);
       if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
         // Replace the current hash without adding a new history entry
         history.replaceState(null, '', `#${slug}`);
       }
