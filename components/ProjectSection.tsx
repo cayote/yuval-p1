@@ -18,9 +18,9 @@ export default function ProjectSection({ project, className, children }: PropsWi
         className || '',
       ].join(' ')}
     >
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
         <header className="mb-6">
-          <h2 id={headingId} className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight">
+          <h2 id={headingId} className="text-2xl sm:text-3xl lg:text-4xl uppercase font-semibold tracking-tight">
             {project.title}
           </h2>
         </header>

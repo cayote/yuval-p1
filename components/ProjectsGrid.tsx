@@ -36,7 +36,7 @@ export default function ProjectsGrid({ projects, className }: ProjectsGridProps)
               priority={index < 2}
               sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             />
-            <h3 id={`${project.slug}-title`} className="mt-2 text-sm sm:text-base font-medium opacity-90">
+            <h3 id={`${project.slug}-title`} className="mt-2 uppercase text-sm sm:text-base font-medium opacity-90">
               {project.title}
             </h3>
           </a>
