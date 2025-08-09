@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
-        <header className="sticky top-0 z-40 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-black/10 dark:border-white/15">
+        <header className="sticky top-0 z-40 bg-background border-b-1 border-neutral-900 shadow-[0_2px_0_rgba(0,0,0,0.12)] py-3 md:py-4">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between py-3 md:py-4">
               <Navigation />

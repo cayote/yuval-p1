@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ScrollLink from "./ScrollLink";
 import { createPortal } from "react-dom";
 import { navigationItems } from "@/lib/navigation-data";
 import type { NavigationItem } from "@/types/navigation";
@@ -44,9 +43,9 @@ export default function MobileMenu() {
       return (
         <li key={item.label}>
           {isInPage ? (
-            <ScrollLink href={item.href} className={className} onClick={handleItemClick}>
+            <Link href={item.href} replace className={className} onClick={handleItemClick}>
               {item.label}
-            </ScrollLink>
+            </Link>
           ) : (
             <Link href={item.href} className={className} onClick={handleItemClick}>
               {item.label}
@@ -81,13 +80,14 @@ export default function MobileMenu() {
             return (
               <li key={link.href}>
                 {isInPage ? (
-                  <ScrollLink
+                  <Link
                     href={link.href}
+                    replace
                     className="block w-full pl-8 pr-4 py-3 text-base tracking-wide hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                     onClick={handleItemClick}
                   >
                     {link.label}
-                  </ScrollLink>
+                  </Link>
                 ) : (
                   <Link
                     href={link.href}
@@ -110,13 +110,25 @@ export default function MobileMenu() {
       {/* Toggle Button */}
       <button
         type="button"
-        aria-label={isOpen ? "Close Menu" : "Open Menu"}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
         aria-expanded={isOpen}
         aria-controls="mobile-menu-panel"
-        className="inline-flex items-center justify-center rounded border border-black/10 px-3 py-2 text-[13px] font-medium tracking-wide hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+        className="relative inline-flex h-10 w-12 items-center justify-center rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
         onClick={toggleMenu}
       >
-        {isOpen ? "Close Menu" : "Open Menu"}
+        <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
+        <span aria-hidden className="flex flex-col items-center justify-center gap-[6px]">
+          <span
+            className={`block h-[2px] w-7 bg-neutral-600 transition-transform duration-200 ${
+              isOpen ? "translate-y-[4px] rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`block h-[2px] w-7 bg-neutral-600 transition-transform duration-200 ${
+              isOpen ? "-translate-y-[4px] -rotate-45" : ""
+            }`}
+          />
+        </span>
       </button>
 
       {/* Portalized overlay + panel to ensure outside clicks work across browsers */}

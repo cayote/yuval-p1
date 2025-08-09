@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import ScrollLink from './ScrollLink';
+import Link from 'next/link';
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -23,13 +23,14 @@ export default function BackToTop() {
         visible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none',
       ].join(' ')}
     >
-      <ScrollLink
+      <Link
         href="/#projects"
+        replace
         aria-label="Back to top"
         className="rounded-full border border-black/10 bg-background/90 backdrop-blur px-4 py-2 text-[13px] font-medium tracking-wide shadow-sm hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
       >
         Back to top
-      </ScrollLink>
+      </Link>
     </div>
   );
 }

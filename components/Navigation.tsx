@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ScrollLink from "./ScrollLink";
+import { usePathname } from "next/navigation";
 import useScrollSpy from "@/hooks/useScrollSpy";
 import { navigationItems } from "@/lib/navigation-data";
 
@@ -14,6 +14,7 @@ export default function Navigation() {
     'inside-out',
     'arava-center',
   ]);
+  const pathname = usePathname();
   return (
     <nav aria-label="Main" className="flex items-center md:w-full">
       {/* Brand / Title */}
@@ -32,19 +33,21 @@ export default function Navigation() {
             return (
               <li role="none" key={item.label}>
                 {isInPage ? (
-                  <ScrollLink
+                  <Link
                     role="menuitem"
                     href={item.href}
+                    replace
                     aria-current={activeId && item.href.endsWith(`#${activeId}`) ? 'true' : undefined}
-                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId && item.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
+                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId && item.href.endsWith(`#${activeId}`) ? 'underline underline-offset-4' : ''}`}
                   >
                     {item.label}
-                  </ScrollLink>
+                  </Link>
                 ) : (
                   <Link
                     role="menuitem"
                     href={item.href}
-                    className="uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+                    aria-current={pathname.startsWith(item.href) ? 'page' : undefined}
+                    className={`uppercase tracking-wide hover:underline underline-offset-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${pathname.startsWith(item.href) ? 'underline underline-offset-4' : ''}`}
                   >
                     {item.label}
                   </Link>
@@ -61,7 +64,7 @@ export default function Navigation() {
                 aria-haspopup="true"
                 aria-expanded="false"
                 aria-controls="projects-menu"
-                className="uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2"
+                className={`uppercase tracking-wide hover:opacity-80 transition-opacity cursor-default select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId ? 'underline underline-offset-4' : ''}`}
               >
                 {item.label}
               </button>
@@ -79,14 +82,15 @@ export default function Navigation() {
                     return (
                       <li role="none" key={link.href}>
                         {isInPage ? (
-                          <ScrollLink
+                          <Link
                             role="menuitem"
                             href={link.href}
+                            replace
                             aria-current={activeId && link.href.endsWith(`#${activeId}`) ? 'true' : undefined}
                             className={`block w-full whitespace-nowrap rounded px-3 py-2 text-[13px] tracking-wide hover:bg-black/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 focus-visible:ring-offset-2 ${activeId && link.href.endsWith(`#${activeId}`) ? 'underline' : ''}`}
                           >
                             {link.label}
-                          </ScrollLink>
+                          </Link>
                         ) : (
                           <Link
                             role="menuitem"
